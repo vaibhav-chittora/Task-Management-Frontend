@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { FaRegEdit, FaRegHeart } from 'react-icons/fa'
 import { MdAddCircleOutline, MdOutlineDelete } from 'react-icons/md'
 
-function Cards() {
-    const [taskCompleted, setTaskCompleted] = useState("Pending")
+function Cards({ home }) {
+
     const data = [
         {
             "title": "Design Homepage",
@@ -32,13 +32,7 @@ function Cards() {
         }
     ]
 
-    function setTaskToCompleted() {
-        console.log("Pending is clicked");
-        if (taskCompleted === "Pending") {
-            setTaskCompleted("Completed")
-        }
 
-    }
 
     return (
         <div className='grid grid-cols-4 gap-6 p-4'>
@@ -53,10 +47,11 @@ function Cards() {
 
                         <button
                             className={`${item.status === "Pending" ? "bg-red-500" : "bg-green-500"} rounded px-2 py-1 w-3/6 cursor-pointer`}
-                            onClick={setTaskToCompleted}
+
                         >
                             {item.status}
                         </button>
+
 
                         <div className='w-3/6 flex justify-around items-center text-2xl'>
                             <button>
@@ -69,14 +64,19 @@ function Cards() {
                                 <MdOutlineDelete />
                             </button>
                         </div>
+
+
                     </div>
                 </div>
             ))}
-            <div className='flex flex-col justify-center items-center bg-gray-700 text-gray-300 rounded-lg p-4 cursor-pointer hover:scale-105 transition-all duration-300' >
-                <MdAddCircleOutline className='text-5xl' />
-                <h3 className='text-2xl mt-4'>Add more tasks</h3>
+            {
+                home === "true" &&
+                <div className='flex flex-col justify-center items-center bg-gray-700 text-gray-300 rounded-lg p-4 cursor-pointer hover:scale-105 transition-all duration-300' >
+                    <MdAddCircleOutline className='text-5xl' />
+                    <h3 className='text-2xl mt-4'>Add more tasks</h3>
 
-            </div>
+                </div>
+            }
         </div>
     )
 }

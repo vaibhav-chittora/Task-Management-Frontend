@@ -1,8 +1,11 @@
 import React from 'react'
+import Cards from '../components/Cards'
 
 function ImportantTasks() {
     return (
-        <div>ImportantTasks</div>
+        <div>
+            <Cards home={'false'} />
+        </div>
     )
 }
 

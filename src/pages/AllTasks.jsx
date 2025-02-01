@@ -12,7 +12,7 @@ function AllTasks() {
                 </button>
             </div>
 
-            <Cards />
+            <Cards home={'true'} />
         </div>
     )
 }
