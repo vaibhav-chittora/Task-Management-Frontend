@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FaRegEdit, FaRegHeart } from 'react-icons/fa'
 import { MdAddCircleOutline, MdOutlineDelete } from 'react-icons/md'
 
-function Cards({ home }) {
+function Cards({ home, setShowModal }) {
 
     const data = [
         {
@@ -71,7 +71,10 @@ function Cards({ home }) {
             ))}
             {
                 home === "true" &&
-                <div className='flex flex-col justify-center items-center bg-gray-700 text-gray-300 rounded-lg p-4 cursor-pointer hover:scale-105 transition-all duration-300' >
+                <div
+                    className='flex flex-col justify-center items-center bg-gray-700 text-gray-300 rounded-lg p-4 cursor-pointer hover:scale-105 transition-all duration-300'
+                    onClick={() => setShowModal('fixed')}
+                >
                     <MdAddCircleOutline className='text-5xl' />
                     <h3 className='text-2xl mt-4'>Add more tasks</h3>
 
