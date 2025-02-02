@@ -6,6 +6,8 @@ import AllTasks from './pages/AllTasks'
 import ImportantTasks from './pages/ImportantTasks'
 import CompletedTasks from './pages/CompletedTasks'
 import PendingTasks from './pages/PendingTasks'
+import Signup from './pages/Signup'
+import Signin from './pages/Signin'
 
 function App() {
 
@@ -23,6 +25,9 @@ function App() {
 
           <Route path='pending-tasks' element={<PendingTasks />} />
         </Route>
+
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/login' element={<Signin />} />
       </Routes>
     </div>
 
