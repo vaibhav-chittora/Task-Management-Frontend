@@ -1,6 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../helpers/axiosInstance";
+import { useDispatch } from "react-redux";
+import { authActions } from '../redux/authSlice'
 
 function Login() {
+    const dispatch = useDispatch()
+    const [data, setData] = useState({
+        email: "",
+        password: "",
+    });
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            if (data.email === "" || data.password === "") {
+                alert("Please fill all the fields");
+                return;
+            }
+            const response = await axiosInstance.post('/user/signin', data);
+            localStorage.setItem('token', response.data.data.token);
+            // console.log("Login Token - ", response.data.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.data.user.email));
+
+            // console.log("Login User - ", response.data.data.user.email);
+            alert('Login successful', response.data.message);
+            setData({
+                email: "",
+                password: "",
+            })
+            dispatch(authActions.login());
+
+            navigate("/");
+
+        } catch (error) {
+            alert(`Error in login - ${error}`);
+            console.log("Login error", error);
+        }
+    }
+
     return (
         <div className="h-screen flex items-center justify-center bg-slate-900 text-[#fff]  py-12 px-4 sm:px-6 lg:px-8">
             <div
@@ -30,6 +74,8 @@ function Login() {
                                 type="email"
                                 name="email"
                                 placeholder="Enter your email"
+                                onChange={handleChange}
+                                value={data.email}
                             />
                         </div>
 
@@ -44,6 +90,8 @@ function Login() {
                                 type="password"
                                 name="password"
                                 placeholder="Enter your password"
+                                onChange={handleChange}
+                                value={data.password}
                             />
                         </div>
                     </div>
@@ -51,6 +99,7 @@ function Login() {
                     <button
                         type="submit"
                         className="w-full flex justify-center py-3 px-4 cursor-pointer border border-transparent rounded-md shadow-sm text-md font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+                        onClick={handleLogin}
                     >
                         Login
                     </button>

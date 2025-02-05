@@ -15,14 +15,16 @@ function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 
   console.log("isLoggedIn Status - ", isLoggedIn);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/signup')
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+      navigate('/');
     } else {
-
+      navigate('/login');
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn, navigate])
 
   return (
 
