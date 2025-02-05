@@ -1,5 +1,4 @@
 
-import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import AllTasks from './pages/AllTasks'
@@ -7,9 +6,23 @@ import ImportantTasks from './pages/ImportantTasks'
 import CompletedTasks from './pages/CompletedTasks'
 import PendingTasks from './pages/PendingTasks'
 import Signup from './pages/Signup'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Signin from './pages/Signin'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 function App() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+
+  console.log("isLoggedIn Status - ", isLoggedIn);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/signup')
+    } else {
+
+    }
+  }, [isLoggedIn])
 
   return (
 
