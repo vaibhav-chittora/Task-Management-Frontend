@@ -1,38 +1,68 @@
 import React, { useState } from 'react'
 import { FaRegEdit, FaRegHeart } from 'react-icons/fa'
 import { MdAddCircleOutline, MdOutlineDelete } from 'react-icons/md'
+import axiosInstance from '../helpers/axiosInstance'
 
-function Cards({ home, setShowModal }) {
+function Cards({ home, setShowModal, data, setData }) {
 
-    const data = [
-        {
-            "title": "Design Homepage",
-            "description": "Create the layout and UI components for the homepage.",
-            status: "Pending"
-        },
-        {
-            "title": "Set Up Database",
-            "description": "Configure MongoDB and set up collections for tasks.",
-            status: "Completed"
-        },
-        {
-            "title": "Implement Authentication",
-            "description": "Add login and signup functionality with JWT authentication.",
-            status: "Pending"
-        },
-        {
-            "title": "Create Task API",
-            "description": "Develop REST API endpoints for CRUD operations on tasks.",
-            status: "Pending"
-        },
-        {
-            "title": "Testing and Debugging",
-            "description": "Perform unit and integration testing to ensure functionality.",
-            status: "Completed"
+    // const data = [
+    //     {
+    //         "title": "Design Homepage",
+    //         "description": "Create the layout and UI components for the homepage.",
+    //         status: "Pending"
+    //     },
+    //     {
+    //         "title": "Set Up Database",
+    //         "description": "Configure MongoDB and set up collections for tasks.",
+    //         status: "Completed"
+    //     },
+    //     {
+    //         "title": "Implement Authentication",
+    //         "description": "Add login and signup functionality with JWT authentication.",
+    //         status: "Pending"
+    //     },
+    //     {
+    //         "title": "Create Task API",
+    //         "description": "Develop REST API endpoints for CRUD operations on tasks.",
+    //         status: "Pending"
+    //     },
+    //     {
+    //         "title": "Testing and Debugging",
+    //         "description": "Perform unit and integration testing to ensure functionality.",
+    //         status: "Completed"
+    //     }
+    // ]
+    const userDetails = {
+        username: localStorage.getItem('user'),
+        email: localStorage.getItem('email'),
+        // token: localStorage.getItem('token')
+        authorization: localStorage.getItem('token')
+    }
+
+    const handleCompleteTask = async (id, item) => {
+        try {
+            const updatedStatus = item.status === "pending" ? "completed" : "pending"
+
+            const response = await axiosInstance.put(`task/update-task/status/${id}`, {
+                status: updatedStatus
+            },
+                { headers: userDetails }
+            )
+            console.log("Task completed - ", response.data.data);
+            const updatedTasks = data.map((task) =>
+                task._id === id ? { ...task, status: updatedStatus } : task
+            );
+            setData(updatedTasks);
+            console.log("Updated tasks - ", updatedTasks);
+            alert(`Task status updated to ${updatedStatus}`);
+
+        } catch (error) {
+            console.log("Error - ", error);
+            alert('Error in completing task')
+
         }
-    ]
 
-
+    }
 
     return (
         <div className='grid grid-cols-4 gap-6 p-4'>
@@ -46,10 +76,11 @@ function Cards({ home, setShowModal }) {
                     <div className='flex items-center mt-4 '>
 
                         <button
-                            className={`${item.status === "Pending" ? "bg-red-500" : "bg-green-500"} rounded px-2 py-1 w-3/6 cursor-pointer`}
-
+                            className={`${item.status === "pending" ? "bg-red-500" : "bg-green-500"} rounded px - 2 py-1 w-3/6 cursor-pointer`}
+                            onClick={() => handleCompleteTask(item._id, item)}
                         >
-                            {item.status}
+                            {/* {item.status === 'pending' ? 'Pending' : 'Completed'} */}
+                            {item.status === "pending" ? "Pending" : "Completed"}
                         </button>
 
 
