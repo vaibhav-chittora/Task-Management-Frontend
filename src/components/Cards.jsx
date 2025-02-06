@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaRegEdit, FaRegHeart } from 'react-icons/fa'
+import { FaHeart, FaRegEdit, FaRegHeart } from 'react-icons/fa'
 import { MdAddCircleOutline, MdOutlineDelete } from 'react-icons/md'
 import axiosInstance from '../helpers/axiosInstance'
 
@@ -64,6 +64,35 @@ function Cards({ home, setShowModal, data, setData }) {
 
     }
 
+    // Important Task function 
+    const handleImportantTasks = async (id, item) => {
+        try {
+            // Toggle the important field
+            const updatedStatus = !item.important;
+
+            // Make the PUT request to the backend
+            const response = await axiosInstance.put(`task/update-task/important/${id}`, {
+                important: updatedStatus  // Sending updated boolean status
+            }, { headers: userDetails });
+
+            // Successfully updated task, update the state
+            console.log('Task marked as important:', response.data.data);
+
+            // Update the task data on the frontend (to reflect UI changes)
+            const updatedImportantTasks = data.map((task) => (
+                task._id === id ? { ...task, important: updatedStatus } : task
+            ));
+
+            setData(updatedImportantTasks);  // Set the updated data into the state
+            alert(`Task marked as ${updatedStatus ? 'Important' : 'Not Important'}`);
+
+        } catch (error) {
+            console.log("Error in marking task as important", error);
+            alert('Error marking task as important');
+        }
+    };
+
+
     return (
         <div className='grid grid-cols-4 gap-6 p-4'>
             {data && data.map((item, i) => (
@@ -85,8 +114,10 @@ function Cards({ home, setShowModal, data, setData }) {
 
 
                         <div className='w-3/6 flex justify-around items-center text-2xl'>
-                            <button>
-                                <FaRegHeart />
+                            <button className='cursor-pointer'
+                                onClick={() => handleImportantTasks(item._id, item)}
+                            >
+                                {item.important == false ? <FaRegHeart /> : <FaHeart className='text-red-500' />}
                             </button>
                             <button>
                                 <FaRegEdit />
