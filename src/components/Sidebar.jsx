@@ -2,9 +2,20 @@ import React from 'react'
 import { CgNotes } from 'react-icons/cg'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import { MdLabelImportant, MdOutlinePendingActions } from 'react-icons/md'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { authActions } from '../redux/authSlice'
 
 function Sidebar() {
+    const dispatch = useDispatch()
+    const handleLogout = () => {
+        dispatch(authActions.logout())
+        alert('Logged Out Successfully')
+        localStorage.clear('token')
+        localStorage.clear('user')
+        // window.location.reload()
+
+    }
     const data = [
         {
             title: 'All Tasks',
@@ -53,7 +64,12 @@ function Sidebar() {
                 ))}
             </div>
 
-            <button className='bg-gray-600 w-full p-2 rounded '>Logout</button>
+            <button
+                className='bg-gray-600 w-full p-2 rounded cursor-pointer hover:bg-gray-500 transition-all duration-300'
+                onClick={handleLogout}
+            >
+                Logout
+            </button>
         </div>
     )
 }
