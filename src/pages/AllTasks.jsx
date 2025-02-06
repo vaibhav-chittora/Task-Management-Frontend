@@ -8,6 +8,12 @@ function AllTasks() {
     const [showModal, setShowModal] = useState('hidden')
 
     const [data, setData] = useState()
+
+    const [updatedData, setUpdatedData] = useState({
+        id: '',
+        title: '',
+        description: '',
+    })
     const userDetails = {
         username: localStorage.getItem('user'),
         email: localStorage.getItem('email'),
@@ -39,9 +45,20 @@ function AllTasks() {
                     </button>
                 </div>
 
-                <Cards home={'true'} setShowModal={setShowModal} data={data} setData={setData} />
+                <Cards
+                    home={'true'}
+                    setShowModal={setShowModal}
+                    data={data}
+                    setData={setData}
+                    setUpdatedData={setUpdatedData}
+                />
             </div>
-            <InputModal showModal={showModal} setShowModal={setShowModal} />
+            <InputModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                updatedData={updatedData}
+                setUpdatedData={setUpdatedData}
+            />
         </>
     )
 }

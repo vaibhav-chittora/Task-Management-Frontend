@@ -1,14 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md'
 import axiosInstance from '../helpers/axiosInstance'
 
-function InputModal({ showModal, setShowModal }) {
-
+function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
     // const [showModal, setShowModal] = useState('hidden')
     const [data, setData] = useState({
         title: '',
         description: '',
     })
+    useEffect(() => {
+        setData({
+            id: updatedData.id,
+            title: updatedData.title,
+            description: updatedData.description
+        })
+    }, [updatedData])
+
 
     const userDetails = {
         username: localStorage.getItem('user'),
@@ -44,7 +51,7 @@ function InputModal({ showModal, setShowModal }) {
                 description: '',
             })
             setShowModal('hidden')
-            windowdow.location.reload()
+            window.location.reload()
 
         } catch (error) {
             console.log("Error - ", error);
@@ -52,6 +59,45 @@ function InputModal({ showModal, setShowModal }) {
 
 
         }
+    }
+
+
+
+    const updateTaskHandler = async (id) => {
+        const { title, description } = data
+        try {
+            if (!title || !description) {
+                alert('Please fill all the fields')
+                return
+            }
+            const response = await axiosInstance.put(`/task/update-task/${updatedData.id}`,
+                {
+                    title,
+                    description
+                },
+                {
+                    headers: userDetails
+                }
+            )
+            console.log("Updated task", response.data.data);
+            setUpdatedData({
+                id: updatedData.id,
+                title: updatedData.title,
+                description: updatedData.description
+            })
+            setData({
+                title: '',
+                description: '',
+            })
+            setShowModal('hidden')
+            window.location.reload()
+
+        } catch (error) {
+            console.log('Error in updating task - ', error);
+            alert('Something went wrong while updating task')
+
+        }
+
     }
 
     return (
@@ -62,7 +108,20 @@ function InputModal({ showModal, setShowModal }) {
                     <div className='flex justify-end items-center'>
                         <button
                             className='text-gray-500 hover:text-gray-300 transition-all duration-300'
-                            onClick={() => setShowModal('hidden')}
+                            onClick={() => {
+                                setShowModal('hidden')
+                                setUpdatedData({
+                                    title: '',
+                                    description: '',
+                                })
+                                setData({
+                                    title: '',
+                                    description: '',
+                                })
+
+                            }}
+
+
                         >
 
                             <MdOutlineClose
@@ -91,15 +150,32 @@ function InputModal({ showModal, setShowModal }) {
                     >
 
                     </textarea>
-                    <button
-                        className='bg-blue-500 text-2xl px-3 py-2 rounded-md my-3 '
-                        onClick={createTaskHandler}
-                    >
 
-                        Create
-                    </button>
+
+
+
+
+                    {!updatedData.title ?
+
+
+                        <button
+                            className='bg-blue-500 text-2xl px-3 py-2 rounded-md my-3 '
+                            onClick={createTaskHandler}
+                        >
+
+                            Create
+                        </button>
+                        :
+                        <button
+                            className='bg-blue-500 text-2xl px-3 py-2 rounded-md my-3 '
+                            onClick={updateTaskHandler}
+                        >
+
+                            Update
+                        </button>
+                    }
                 </div>
-            </div>
+            </div >
 
         </>
     )

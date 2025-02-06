@@ -3,7 +3,7 @@ import { FaHeart, FaRegEdit, FaRegHeart } from 'react-icons/fa'
 import { MdAddCircleOutline, MdOutlineDelete } from 'react-icons/md'
 import axiosInstance from '../helpers/axiosInstance'
 
-function Cards({ home, setShowModal, data, setData }) {
+function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
 
     // const data = [
     //     {
@@ -39,6 +39,8 @@ function Cards({ home, setShowModal, data, setData }) {
         authorization: localStorage.getItem('token')
     }
 
+
+    //complete task funcctionality
     const handleCompleteTask = async (id, item) => {
         try {
             const updatedStatus = item.status === "pending" ? "completed" : "pending"
@@ -64,7 +66,7 @@ function Cards({ home, setShowModal, data, setData }) {
 
     }
 
-    // Important Task function 
+    // Important Task functionality
     const handleImportantTasks = async (id, item) => {
         try {
             // Toggle the important field
@@ -92,6 +94,8 @@ function Cards({ home, setShowModal, data, setData }) {
         }
     };
 
+
+    // Delete Task functionality
     const deleteTask = async (id) => {
         try {
             const response = await axiosInstance.delete(`task/delete-task/${id}`, {
@@ -108,6 +112,16 @@ function Cards({ home, setShowModal, data, setData }) {
         }
     }
 
+
+    // Edit Task functionality
+    const handleEditTask = async (id, item) => {
+        setShowModal('fixed');
+        setUpdatedData({
+            id: item._id,
+            title: item.title,
+            description: item.description,
+        })
+    }
 
     return (
         <div className='grid grid-cols-4 gap-6 p-4'>
@@ -135,7 +149,10 @@ function Cards({ home, setShowModal, data, setData }) {
                             >
                                 {item.important == false ? <FaRegHeart /> : <FaHeart className='text-red-500' />}
                             </button>
-                            <button>
+                            <button
+                                className='cursor-pointer'
+                                onClick={() => handleEditTask(item._id, item)}
+                            >
                                 <FaRegEdit />
                             </button>
                             <button
