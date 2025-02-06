@@ -149,12 +149,20 @@ function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
                             >
                                 {item.important == false ? <FaRegHeart /> : <FaHeart className='text-red-500' />}
                             </button>
-                            <button
-                                className='cursor-pointer'
-                                onClick={() => handleEditTask(item._id, item)}
-                            >
-                                <FaRegEdit />
-                            </button>
+
+                            {home !== "false" &&
+
+                                <button
+                                    className='cursor-pointer'
+                                    onClick={() => handleEditTask(item._id, item)}
+                                >
+                                    <FaRegEdit />
+                                </button>
+
+                            }
+
+
+
                             <button
                                 className='cursor-pointer'
                                 onClick={() => deleteTask(item._id)}
