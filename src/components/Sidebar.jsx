@@ -3,13 +3,14 @@ import { CgNotes } from 'react-icons/cg'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import { MdLabelImportant, MdOutlinePendingActions } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { authActions } from '../redux/authSlice'
 import axiosInstance from '../helpers/axiosInstance'
 
 function Sidebar() {
     const [Data, setData] = useState()
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const userDetails = {
         username: localStorage.getItem('user'),
@@ -40,6 +41,9 @@ function Sidebar() {
         localStorage.clear('token')
         localStorage.clear('user')
         // window.location.reload()
+        setTimeout(() => {
+            navigate('/login')
+        }, 2000);
 
     }
 

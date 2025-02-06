@@ -1,10 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cards from '../components/Cards'
 import { MdAddCircleOutline } from 'react-icons/md'
 import InputModal from '../components/InputModal'
+import axiosInstance from '../helpers/axiosInstance'
 
 function AllTasks() {
     const [showModal, setShowModal] = useState('hidden')
+
+    const [data, setData] = useState()
+    const userDetails = {
+        username: localStorage.getItem('user'),
+        email: localStorage.getItem('email'),
+        // token: localStorage.getItem('token')
+        authorization: localStorage.getItem('token')
+    }
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const response = await axiosInstance.get('/task/all-tasks', {
+                headers: userDetails
+            })
+            setData(response.data.data)
+            console.log('Tasks from api -', response.data.data);
+        }
+        fetchUserData()
+        console.log("Data - ", data);
+    }, [])
+
     return (
         <>
             <div>
@@ -18,7 +39,7 @@ function AllTasks() {
                     </button>
                 </div>
 
-                <Cards home={'true'} setShowModal={setShowModal} />
+                <Cards home={'true'} setShowModal={setShowModal} data={data} setData={setData} />
             </div>
             <InputModal showModal={showModal} setShowModal={setShowModal} />
         </>
