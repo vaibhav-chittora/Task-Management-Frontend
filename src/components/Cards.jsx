@@ -92,6 +92,22 @@ function Cards({ home, setShowModal, data, setData }) {
         }
     };
 
+    const deleteTask = async (id) => {
+        try {
+            const response = await axiosInstance.delete(`task/delete-task/${id}`, {
+                headers: userDetails
+            })
+            console.log("Task deleted - ", response.data.data);
+            alert('are you sure you want to delete this task?')
+            const updatedTasks = data.filter((task) => task._id !== id);
+            setData(updatedTasks);
+            alert('Task deleted successfully');
+        } catch (error) {
+            console.log("Error in deleting task - ", error);
+            alert('Error in deleting task');
+        }
+    }
+
 
     return (
         <div className='grid grid-cols-4 gap-6 p-4'>
@@ -122,7 +138,10 @@ function Cards({ home, setShowModal, data, setData }) {
                             <button>
                                 <FaRegEdit />
                             </button>
-                            <button>
+                            <button
+                                className='cursor-pointer'
+                                onClick={() => deleteTask(item._id)}
+                            >
                                 <MdOutlineDelete />
                             </button>
                         </div>
