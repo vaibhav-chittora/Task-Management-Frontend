@@ -1,13 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CgNotes } from 'react-icons/cg'
 import { IoCheckmarkDoneOutline } from 'react-icons/io5'
 import { MdLabelImportant, MdOutlinePendingActions } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { authActions } from '../redux/authSlice'
+import axiosInstance from '../helpers/axiosInstance'
 
 function Sidebar() {
+    const [Data, setData] = useState()
+
     const dispatch = useDispatch()
+    const userDetails = {
+        username: localStorage.getItem('user'),
+        email: localStorage.getItem('email'),
+        // token: localStorage.getItem('token')
+        authorization: localStorage.getItem('token')
+    }
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const response = await axiosInstance.get('/task/all-tasks', {
+                headers: userDetails
+            })
+            setData(response.data.data)
+            console.log(response.data.data);
+        }
+        fetchUserData()
+        console.log("Data - ", Data);
+    }, [])
+
+
+
+    // logout function
+
     const handleLogout = () => {
         dispatch(authActions.logout())
         alert('Logged Out Successfully')
@@ -16,6 +42,10 @@ function Sidebar() {
         // window.location.reload()
 
     }
+
+
+
+
     const data = [
         {
             title: 'All Tasks',
@@ -44,12 +74,20 @@ function Sidebar() {
 
     return (
         <div className='flex flex-col'>
-            <div>
-                <img src="https://www.freepik.com/free-psd/3d-icon-social-media-app_36190320.htm#fromView=keyword&page=1&position=21&uuid=0429c0e9-6ee9-4b79-bcfa-2ed1a4f91619&query=User+Profile" alt="" />
-                <h2 className='font-semibold text-xl'>Vaibhav Chittora</h2>
-                <h4 className='text-gray-400 mb-1'>vaibhav@admin.com</h4>
-                <hr />
-            </div>
+
+            {
+                Data && (
+                    <div>
+                        {/* <img src="https://www.freepik.com/free-psd/3d-icon-social-media-app_36190320.htm#fromView=keyword&page=1&position=21&uuid=0429c0e9-6ee9-4b79-bcfa-2ed1a4f91619&query=User+Profile" alt="" /> */}
+                        <h2 className='font-semibold text-xl'>
+                            {userDetails.username}
+                        </h2>
+                        <h4 className='text-gray-400 mb-1'>
+                            {userDetails.email}
+                        </h4>
+                        <hr />
+                    </div>
+                )}
             <div>
                 {data.map((item, i) => (
                     <Link

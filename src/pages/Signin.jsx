@@ -25,11 +25,14 @@ function Login() {
                 return;
             }
             const response = await axiosInstance.post('/user/signin', data);
+
+            localStorage.setItem('user', JSON.stringify(response.data.data.user.username));
+            localStorage.setItem('email', JSON.stringify(response.data.data.user.email));
+            console.log("Login User - ", response.data.data);
+
             localStorage.setItem('token', response.data.data.token);
             // console.log("Login Token - ", response.data.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.data.user.email));
 
-            // console.log("Login User - ", response.data.data.user.email);
             alert('Login successful', response.data.message);
             setData({
                 email: "",
