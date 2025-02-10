@@ -14,8 +14,8 @@ function Sidebar() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const userDetails = {
-        username: localStorage.getItem('user'),
-        email: localStorage.getItem('email'),
+        username: JSON.parse(localStorage.getItem('user')),
+        email: JSON.parse(localStorage.getItem('email')),
         // token: localStorage.getItem('token')
         authorization: localStorage.getItem('token')
     }
@@ -91,7 +91,7 @@ function Sidebar() {
                     <div>
                         {/* <img src="https://www.freepik.com/free-psd/3d-icon-social-media-app_36190320.htm#fromView=keyword&page=1&position=21&uuid=0429c0e9-6ee9-4b79-bcfa-2ed1a4f91619&query=User+Profile" alt="" /> */}
                         <h2 className='font-semibold text-xl'>
-                            {userDetails.username}
+                            {userDetails.username.toUpperCase()}
                         </h2>
                         <h4 className='text-gray-400 mb-1'>
                             {userDetails.email}
