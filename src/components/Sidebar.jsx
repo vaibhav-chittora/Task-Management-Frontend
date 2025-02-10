@@ -41,6 +41,7 @@ function Sidebar() {
         // alert('Logged Out Successfully')
         localStorage.clear('token')
         localStorage.clear('user')
+        localStorage.clear('email')
 
         // window.location.reload()
 

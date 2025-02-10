@@ -14,7 +14,7 @@ function CompletedTasks() {
 
     useEffect(() => {
         const fetchImportantTasks = async () => {
-            const response = await axiosInstance.get('/task/all-tasks', {
+            const response = await axiosInstance.get('/task/completed-tasks', {
                 headers: userDetails
             })
             setData(response.data.data)
