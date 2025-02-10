@@ -168,7 +168,7 @@ function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
                         </button>
                         :
                         <button
-                            className='bg-blue-500 text-2xl px-3 py-2 rounded-md my-3 '
+                            className='bg-blue-500 text-2xl px-3 py-2 rounded-md my-3 cursor-pointer '
                             onClick={updateTaskHandler}
                         >
 

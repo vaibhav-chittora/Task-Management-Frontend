@@ -124,68 +124,25 @@ function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
     }
 
     return (
-        <div className='grid grid-cols-4 gap-6 p-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4'>
             {data && data.map((item, i) => (
-                <div className='flex flex-col justify-between bg-gray-700 rounded-lg p-4' >
-
-                    <div className=''>
-                        <h1 className='text-xl font-semibold'>{item.title}</h1>
-                        <p className='text-gray-300 my-2'>{item.description}</p>
-                    </div>
-                    <div className='flex items-center mt-4 '>
-
-                        <button
-                            className={`${item.status === "pending" ? "bg-red-500" : "bg-green-500"} rounded px - 2 py-1 w-3/6 cursor-pointer`}
+                <div key={i} className='flex flex-col justify-between bg-gray-700 rounded-lg p-4'>
+                    <h1 className='text-lg font-semibold'>{item.title}</h1>
+                    <p className='text-gray-300'>{item.description}</p>
+                    <div className='flex items-center mt-4 space-x-2'>
+                        <button className={`${item.status === "pending" ? "bg-red-500" : "bg-green-500"} px-4 py-2 rounded w-1/2 cursor-pointer`}
                             onClick={() => handleCompleteTask(item._id, item)}
-                        >
-                            {/* {item.status === 'pending' ? 'Pending' : 'Completed'} */}
-                            {item.status === "pending" ? "Pending" : "Completed"}
-                        </button>
-
-
-                        <div className='w-3/6 flex justify-around items-center text-2xl'>
-                            <button className='cursor-pointer'
-                                onClick={() => handleImportantTasks(item._id, item)}
-                            >
-                                {item.important == false ? <FaRegHeart /> : <FaHeart className='text-red-500' />}
+                        >{item.status}</button>
+                        <div className='flex w-1/2 justify-around'>
+                            <button className='cursor-pointer text-2xl' onClick={() => handleImportantTasks(item._id, item)}>
+                                {item.important ? <FaHeart className='text-red-500' /> : <FaRegHeart />}
                             </button>
-
-                            {home !== "false" &&
-
-                                <button
-                                    className='cursor-pointer'
-                                    onClick={() => handleEditTask(item._id, item)}
-                                >
-                                    <FaRegEdit />
-                                </button>
-
-                            }
-
-
-
-                            <button
-                                className='cursor-pointer'
-                                onClick={() => deleteTask(item._id)}
-                            >
-                                <MdOutlineDelete />
-                            </button>
+                            <button className='cursor-pointer text-2xl' onClick={() => handleEditTask(item._id, item)}><FaRegEdit /></button>
+                            <button className='cursor-pointer text-2xl' onClick={() => deleteTask(item._id)}><MdOutlineDelete /></button>
                         </div>
-
-
                     </div>
                 </div>
             ))}
-            {
-                home === "true" &&
-                <div
-                    className='flex flex-col justify-center items-center bg-gray-700 text-gray-300 rounded-lg p-4 cursor-pointer hover:scale-105 transition-all duration-300'
-                    onClick={() => setShowModal('fixed')}
-                >
-                    <MdAddCircleOutline className='text-5xl' />
-                    <h3 className='text-2xl mt-4'>Add more tasks</h3>
-
-                </div>
-            }
         </div>
     )
 }

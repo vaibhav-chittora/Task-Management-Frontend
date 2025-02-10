@@ -5,10 +5,10 @@ import { Outlet } from 'react-router-dom'
 function Home() {
     return (
         <div className='flex gap-4 h-[98vh]'>
-            <div className='w-1/6 border border-grey rounded-xl p-4'>
+            <div className=''>
                 <Sidebar />
             </div>
-            <div className='w-5/6 border border-grey rounded-xl p-4'>
+            <div className='w-5/6 rounded-xl p-4'>
                 <Outlet />
             </div>
         </div>

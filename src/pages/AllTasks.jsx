@@ -8,6 +8,7 @@ function AllTasks() {
     const [showModal, setShowModal] = useState('hidden')
 
     const [data, setData] = useState()
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     const [updatedData, setUpdatedData] = useState({
         id: '',

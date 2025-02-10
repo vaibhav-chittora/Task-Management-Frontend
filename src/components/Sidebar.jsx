@@ -1,126 +1,113 @@
-import React, { useEffect, useState } from 'react'
-import { CgNotes } from 'react-icons/cg'
-import { IoCheckmarkDoneOutline } from 'react-icons/io5'
-import { MdLabelImportant, MdOutlinePendingActions } from 'react-icons/md'
-import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { authActions } from '../redux/authSlice'
-import axiosInstance from '../helpers/axiosInstance'
-import toast from 'react-hot-toast'
+import React, { useEffect, useState } from "react";
+import { CgNotes } from "react-icons/cg";
+import { IoCheckmarkDoneOutline, IoLogOutOutline } from "react-icons/io5";
+import { MdLabelImportant, MdOutlinePendingActions } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { authActions } from "../redux/authSlice";
+import axiosInstance from "../helpers/axiosInstance";
+import toast from "react-hot-toast";
 
 function Sidebar() {
-    const [Data, setData] = useState()
+    const [Data, setData] = useState();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
     const userDetails = {
-        username: JSON.parse(localStorage.getItem('user')),
-        email: JSON.parse(localStorage.getItem('email')),
-        // token: localStorage.getItem('token')
-        authorization: localStorage.getItem('token')
-    }
+        username: JSON.parse(localStorage.getItem("user")),
+        email: JSON.parse(localStorage.getItem("email")),
+        authorization: localStorage.getItem("token"),
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const response = await axiosInstance.get('/task/all-tasks', {
-                headers: userDetails
-            })
-            setData(response.data.data)
-            console.log(response.data.data);
-        }
-        fetchUserData()
-        console.log("Data - ", Data);
-    }, [])
+            const response = await axiosInstance.get("/task/all-tasks", {
+                headers: userDetails,
+            });
+            setData(response.data.data);
+        };
+        fetchUserData();
+    }, []);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
-
-    // logout function
-
+    // Logout function
     const handleLogout = () => {
-        dispatch(authActions.logout())
-        // alert('Logged Out Successfully')
-        localStorage.clear('token')
-        localStorage.clear('user')
-        localStorage.clear('email')
+        dispatch(authActions.logout());
+        localStorage.clear();
+        toast.success("Logged Out Successfully");
+        setTimeout(() => navigate("/login"), 2000);
+    };
 
-        // window.location.reload()
-
-        toast.success('Logged Out Successfully')
-
-
-        setTimeout(() => {
-            navigate('/login')
-        }, 3000);
-
-    }
-
-
-
-
-    const data = [
-        {
-            title: 'All Tasks',
-            icon: <CgNotes />,
-            link: '/home/all-tasks'
-
-        },
-        {
-            title: 'Important Tasks',
-            icon: <MdLabelImportant />,
-            link: '/home/important-tasks'
-        },
-        {
-
-            title: 'Completed Tasks',
-            icon: <IoCheckmarkDoneOutline />,
-            link: '/home/completed-tasks'
-        },
-        {
-            title: 'Pending Tasks',
-            icon: <MdOutlinePendingActions />,
-            link: '/home/pending-tasks'
-        }
-
-    ]
+    const menuItems = [
+        { title: "All", icon: <CgNotes />, link: "/home/all-tasks" },
+        { title: "Important", icon: <MdLabelImportant />, link: "/home/important-tasks" },
+        { title: "Completed", icon: <IoCheckmarkDoneOutline />, link: "/home/completed-tasks" },
+        { title: "Pending", icon: <MdOutlinePendingActions />, link: "/home/pending-tasks" },
+    ];
 
     return (
-        <div className='flex flex-col'>
-
-            {
-                Data && (
-                    <div>
-                        {/* <img src="https://www.freepik.com/free-psd/3d-icon-social-media-app_36190320.htm#fromView=keyword&page=1&position=21&uuid=0429c0e9-6ee9-4b79-bcfa-2ed1a4f91619&query=User+Profile" alt="" /> */}
-                        <h2 className='font-semibold text-xl'>
-                            {userDetails.username.toUpperCase()}
-                        </h2>
-                        <h4 className='text-gray-400 mb-1'>
-                            {userDetails.email}
-                        </h4>
-                        <hr />
+        <>
+            {/* Sidebar for large screens */}
+            {!isMobile ? (
+                <div className="flex flex-col h-full text-white p-4 border border-gray-600 rounded-2xl w-64">
+                    <div className="text-center border-b border-gray-600 pb-4">
+                        {Data && (
+                            <>
+                                <h2 className="text-xl font-bold">{userDetails.username.toUpperCase()}</h2>
+                                <h4 className="text-gray-400 text-sm">{userDetails.email}</h4>
+                            </>
+                        )}
                     </div>
-                )}
-            <div>
-                {data.map((item, i) => (
-                    <Link
-                        className='my-2 cursor-pointer flex gap-2 items-center hover:bg-gray-700 p-2 rounded transition-all duration-300' key={i}
-                        to={item.link}
-                    >
-                        {item.icon}
+                    <div className="flex-1 flex flex-col justify-center gap-6 space-y-4 mt-4 text-xl">
+                        {menuItems.map((item, i) => (
+                            <Link key={i} to={item.link} className="flex items-center gap-3 p-2 rounded hover:bg-gray-700 rounded-xl transition-all">
+                                {item.icon}
+                                {item.title}
+                            </Link>
+                        ))}
+                    </div>
+                    <button className="mt-auto border hover:bg-gray-700 hover:border w-full p-2 cursor-pointer rounded transition-all text-lg" onClick={handleLogout}>
+                        Logout
+                    </button>
+                </div>
+            ) : (
+                // Bottom Navigation for mobile
+                <div className="fixed bottom-0 left-0 w-full bg-gray-900 text-white flex justify-around items-center py-2 border-t border-gray-600">
+                    {menuItems.map((item, i) => (
+                        <Link key={i} to={item.link} className="text-2xl p-2">
+                            {item.icon}
+                        </Link>
+                    ))}
+                    <div className="flex items-center gap-2">
+                        <FaUserCircle className="text-3xl" />
+                        <span>{userDetails.username}</span>
+                    </div>
+                    {/* <button onClick={handleLogout} className="text-2xl p-2 text-red-500">
+                        Logout
+                    </button> */}
+                </div>
+            )}
 
-                        {item.title}
-                    </Link>
-
-                ))}
-            </div>
-
-            <button
-                className='bg-gray-600 w-full p-2 rounded cursor-pointer hover:bg-gray-500 transition-all duration-300'
-                onClick={handleLogout}
-            >
-                Logout
-            </button>
-        </div>
-    )
+            {/* Top Navbar for mobile (User Avatar) */}
+            {/* {isMobile && (
+                <div className="w-full bg-gray-900 text-white flex justify-between items-center p-4 border-b border-gray-600">
+                    <div className="flex items-center gap-2">
+                        <FaUserCircle className="text-3xl" />
+                        <span>{userDetails.username}</span>
+                    </div>
+                </div>
+            )} */}
+        </>
+    );
 }
 
-export default Sidebar
+export default Sidebar;
