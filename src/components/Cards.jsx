@@ -40,7 +40,7 @@ function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
     }
 
 
-    //complete task funcctionality
+    //complete task functionality
     const handleCompleteTask = async (id, item) => {
         try {
             const updatedStatus = item.status === "pending" ? "completed" : "pending"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md'
 import axiosInstance from '../helpers/axiosInstance'
+import toast from 'react-hot-toast'
 
 function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
     // const [showModal, setShowModal] = useState('hidden')
@@ -33,7 +34,7 @@ function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
         const { title, description } = data
         try {
             if (!title || !description) {
-                alert('Please fill all the fields')
+                toast.error('Please fill all the fields')
                 return
             }
             const response = await axiosInstance.post('/task/create-task',
@@ -159,7 +160,7 @@ function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
 
 
                         <button
-                            className='bg-blue-500 text-2xl px-3 py-2 rounded-md my-3 '
+                            className='bg-blue-500 text-2xl px-3 py-2 rounded-md my-3 cursor-pointer '
                             onClick={createTaskHandler}
                         >
 

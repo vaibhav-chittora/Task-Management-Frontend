@@ -26,7 +26,11 @@ function CompletedTasks() {
 
     return (
         <div>
-            <Cards home={'false'} data={data} />
+            <Cards
+                home={'false'}
+                data={data}
+                setData={setData}
+            />
         </div>
     )
 }

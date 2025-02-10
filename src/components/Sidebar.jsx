@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { authActions } from '../redux/authSlice'
 import axiosInstance from '../helpers/axiosInstance'
+import toast from 'react-hot-toast'
 
 function Sidebar() {
     const [Data, setData] = useState()
@@ -37,13 +38,18 @@ function Sidebar() {
 
     const handleLogout = () => {
         dispatch(authActions.logout())
-        alert('Logged Out Successfully')
+        // alert('Logged Out Successfully')
         localStorage.clear('token')
         localStorage.clear('user')
+
         // window.location.reload()
+
+        toast.success('Logged Out Successfully')
+
+
         setTimeout(() => {
             navigate('/login')
-        }, 2000);
+        }, 3000);
 
     }
 
@@ -54,24 +60,24 @@ function Sidebar() {
         {
             title: 'All Tasks',
             icon: <CgNotes />,
-            link: '/'
+            link: '/home/all-tasks'
 
         },
         {
             title: 'Important Tasks',
             icon: <MdLabelImportant />,
-            link: '/important-tasks'
+            link: '/home/important-tasks'
         },
         {
 
             title: 'Completed Tasks',
             icon: <IoCheckmarkDoneOutline />,
-            link: '/completed-tasks'
+            link: '/home/completed-tasks'
         },
         {
             title: 'Pending Tasks',
             icon: <MdOutlinePendingActions />,
-            link: '/pending-tasks'
+            link: '/home/pending-tasks'
         }
 
     ]

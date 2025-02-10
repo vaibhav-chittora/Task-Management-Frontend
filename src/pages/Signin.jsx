@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../helpers/axiosInstance";
 import { useDispatch } from "react-redux";
 import { authActions } from '../redux/authSlice'
+import toast from "react-hot-toast";
 
 function Login() {
     const dispatch = useDispatch()
@@ -33,17 +34,21 @@ function Login() {
             localStorage.setItem('token', response.data.data.token);
             // console.log("Login Token - ", response.data.data.token);
 
-            alert('Login successful', response.data.message);
+            // alert('Login successful', response.data.message);
+            toast.success('Successfully logged in ');
+
             setData({
                 email: "",
                 password: "",
             })
             dispatch(authActions.login());
+            setTimeout(() => {
+                navigate("/home/all-tasks");;
+            }, 5000);
 
-            navigate("/");
 
         } catch (error) {
-            alert(`Error in login - ${error}`);
+            toast.error(`Error in login - ${error}`);
             console.log("Login error", error);
         }
     }

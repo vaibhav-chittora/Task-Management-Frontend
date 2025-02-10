@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import axiosInstance from "../helpers/axiosInstance";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Signup() {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ function Signup() {
         e.preventDefault();
         try {
             if (data.username === "" || data.email === "" || data.password === "") {
-                alert("Please fill all the fields");
+                toast.error("Please fill all the fields");
                 return;
             }
             const response = await axiosInstance.post("/user/signup", data);
@@ -28,12 +29,15 @@ function Signup() {
                 email: "",
                 password: "",
             })
-            alert('Signup successful', response.data.message);
-            navigate("/login");
+            // alert('Signup successful', response.data.message);
+            toast.success('Signup successful, Redirecting to login page...');
+            setTimeout(() => {
+                navigate("/login");
+            }, 3000);
 
             console.log("Form submitted");
         } catch (error) {
-            alert(`Error in signup - ${error.response.data.message}`);
+            toast.error(`Error in signup - ${error.response.data.message}`);
             console.log("submit error", error.response.data.message);
         }
     };
