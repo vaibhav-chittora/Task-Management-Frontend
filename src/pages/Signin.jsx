@@ -48,7 +48,7 @@ function Login() {
 
 
         } catch (error) {
-            toast.error(`Error in login - ${error}`);
+            toast.error(`Error in login - ${error.response.data.message.message}`);
             console.log("Login error", error);
         }
     }
