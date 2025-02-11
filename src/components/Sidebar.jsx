@@ -11,6 +11,10 @@ import toast from "react-hot-toast";
 function Sidebar() {
     const [Data, setData] = useState();
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    //state to show/hide the username and Logout button
+    const [show, setShow] = useState(false);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -95,14 +99,24 @@ function Sidebar() {
                             {item.icon}
                         </Link>
                     ))}
-                    {/* <div className=" gap-2"> */}
-                    {/* <FaUserCircle className="text-3xl" /> */}
-                    <img
-                        src={userDetails.avatar}
-                        className="w-10 h-10 rounded-full"
-                    />
-                    {/* <span>{userDetails.username}</span> */}
-                    {/* </div> */}
+                    <div onClick={() => setShow(!show)} >
+
+                        <img
+                            src={userDetails.avatar}
+                            className="w-10 h-10 rounded-full"
+                        />{
+                            show ? <div className="absolute bottom-20 right-6 text-center bg-[#181818] border border-gray-500 px-5 py-4 rounded-lg">
+                                <span className="text-xl text-center font-bold">
+
+                                    {userDetails.username.toUpperCase()}
+                                </span>
+                                <button className=" border mt-4 hover:bg-gray-700 hover:border w-full cursor-pointer rounded transition-all text-lg" onClick={handleLogout}>
+                                    Logout
+                                </button>
+                            </div> : ''
+                        }
+                        {/* <span>{userDetails.username}</span> */}
+                    </div>
                     {/* <button onClick={handleLogout} className="text-2xl p-2 text-red-500">
                         Logout
                     </button> */}
