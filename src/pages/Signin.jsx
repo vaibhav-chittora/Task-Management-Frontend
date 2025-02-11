@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../helpers/axiosInstance";
 import { useDispatch } from "react-redux";
 import { authActions } from '../redux/authSlice'
@@ -117,9 +117,9 @@ function Login() {
                             Don't have an account?
                         </span>
 
-                        <a href="/signup" className="font-medium mx-2 text-blue-600 hover:text-blue-500">
+                        <Link to="/signup" className="font-medium mx-2 text-blue-600 hover:text-blue-500">
                             Register Here
-                        </a>
+                        </Link>
                     </div>
                 </form>
             </div>
