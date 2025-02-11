@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CgNotes } from "react-icons/cg";
-import { IoCheckmarkDoneOutline, IoLogOutOutline } from "react-icons/io5";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import { MdLabelImportant, MdOutlinePendingActions } from "react-icons/md";
-import { FaUserCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { authActions } from "../redux/authSlice";
@@ -19,6 +18,7 @@ function Sidebar() {
         username: JSON.parse(localStorage.getItem("user")),
         email: JSON.parse(localStorage.getItem("email")),
         authorization: localStorage.getItem("token"),
+        avatar: JSON.parse(localStorage.getItem("avatar")),
     };
 
     useEffect(() => {
@@ -62,14 +62,22 @@ function Sidebar() {
                     <div className="text-center border-b border-gray-600 pb-4">
                         {Data && (
                             <>
-                                <h2 className="text-xl font-bold">{userDetails.username.toUpperCase()}</h2>
-                                <h4 className="text-gray-400 text-sm">{userDetails.email}</h4>
+                                <div className="flex items-center justify-center">
+                                    <div className="flex items-center justify-center">
+                                        <img src={userDetails.avatar} alt="User Avatar" className="w-20 h-20 mx-auto rounded-full" />
+                                    </div>
+                                    <div className="flex flex-col items-center justify-center mt-4">
+
+                                        <h2 className="text-xl font-bold">{userDetails.username.toUpperCase()}</h2>
+                                        <h4 className="text-gray-400 text-sm">{userDetails.email}</h4>
+                                    </div>
+                                </div>
                             </>
                         )}
                     </div>
                     <div className="flex-1 flex flex-col justify-center gap-6 space-y-4 mt-4 text-xl">
                         {menuItems.map((item, i) => (
-                            <Link key={i} to={item.link} className="flex items-center gap-3 p-2 rounded hover:bg-gray-700 rounded-xl transition-all">
+                            <Link key={i} to={item.link} className="flex items-center gap-3 p-2 hover:bg-gray-700 rounded-xl transition-all">
                                 {item.icon}
                                 {item.title}
                             </Link>
@@ -87,25 +95,19 @@ function Sidebar() {
                             {item.icon}
                         </Link>
                     ))}
-                    <div className="flex items-center gap-2">
-                        <FaUserCircle className="text-3xl" />
-                        <span>{userDetails.username}</span>
-                    </div>
+                    {/* <div className=" gap-2"> */}
+                    {/* <FaUserCircle className="text-3xl" /> */}
+                    <img
+                        src={userDetails.avatar}
+                        className="w-10 h-10 rounded-full"
+                    />
+                    {/* <span>{userDetails.username}</span> */}
+                    {/* </div> */}
                     {/* <button onClick={handleLogout} className="text-2xl p-2 text-red-500">
                         Logout
                     </button> */}
                 </div>
             )}
-
-            {/* Top Navbar for mobile (User Avatar) */}
-            {/* {isMobile && (
-                <div className="w-full bg-gray-900 text-white flex justify-between items-center p-4 border-b border-gray-600">
-                    <div className="flex items-center gap-2">
-                        <FaUserCircle className="text-3xl" />
-                        <span>{userDetails.username}</span>
-                    </div>
-                </div>
-            )} */}
         </>
     );
 }

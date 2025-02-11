@@ -29,6 +29,7 @@ function Login() {
 
             localStorage.setItem('user', JSON.stringify(response.data.data.user.username));
             localStorage.setItem('email', JSON.stringify(response.data.data.user.email));
+            localStorage.setItem('avatar', JSON.stringify(response.data.data.avatar));
             console.log("Login User - ", response.data.data);
 
             localStorage.setItem('token', response.data.data.token);
