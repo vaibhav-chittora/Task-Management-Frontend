@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FaHeart, FaRegEdit, FaRegHeart } from 'react-icons/fa'
 import { MdAddCircleOutline, MdOutlineDelete } from 'react-icons/md'
 import axiosInstance from '../helpers/axiosInstance'
+import toast from 'react-hot-toast'
 
 function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
 
@@ -56,11 +57,11 @@ function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
             );
             setData(updatedTasks);
             console.log("Updated tasks - ", updatedTasks);
-            alert(`Task status updated to ${updatedStatus}`);
+            toast.success(`Task status updated to ${updatedStatus}`);
 
         } catch (error) {
             console.log("Error - ", error);
-            alert('Error in completing task')
+            toast.error('Error in completing task', error)
 
         }
 
@@ -86,11 +87,11 @@ function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
             ));
 
             setData(updatedImportantTasks);  // Set the updated data into the state
-            alert(`Task marked as ${updatedStatus ? 'Important' : 'Not Important'}`);
+            toast.success(`Task marked as ${updatedStatus ? 'Important' : 'Not Important'}`);
 
         } catch (error) {
             console.log("Error in marking task as important", error);
-            alert('Error marking task as important');
+            toast.error('Error marking task as important', error);
         }
     };
 
@@ -105,10 +106,10 @@ function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
             alert('are you sure you want to delete this task?')
             const updatedTasks = data.filter((task) => task._id !== id);
             setData(updatedTasks);
-            alert('Task deleted successfully');
+            toast.success('Task deleted successfully');
         } catch (error) {
             console.log("Error in deleting task - ", error);
-            alert('Error in deleting task');
+            toast.error('Error in deleting task', error);
         }
     }
 
@@ -121,6 +122,11 @@ function Cards({ home, setShowModal, data, setData, setUpdatedData }) {
             title: item.title,
             description: item.description,
         })
+        if (response.status === 200) {
+            toast.success('Task updated successfully');
+        } else {
+            toast.error('Error updating task');
+        }
     }
 
     return (

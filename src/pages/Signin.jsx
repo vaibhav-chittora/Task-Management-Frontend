@@ -22,7 +22,7 @@ function Login() {
         e.preventDefault();
         try {
             if (data.email === "" || data.password === "") {
-                alert("Please fill all the fields");
+                toast.error("Please fill all the fields");
                 return;
             }
             const response = await axiosInstance.post('/user/signin', data);

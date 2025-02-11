@@ -34,7 +34,7 @@ function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
         const { title, description } = data
         try {
             if (!title || !description) {
-                toast.error('Please fill all the fields')
+                toast.error(`Title and Description is required to create a task`)
                 return
             }
             const response = await axiosInstance.post('/task/create-task',
@@ -56,7 +56,7 @@ function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
 
         } catch (error) {
             console.log("Error - ", error);
-            alert('Something went wrong while creating task')
+            toast.error('Something went wrong while creating task', error);
 
 
         }
@@ -68,7 +68,7 @@ function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
         const { title, description } = data
         try {
             if (!title || !description) {
-                alert('Please fill all the fields')
+                toast.error('All fields are required to update this task')
                 return
             }
             const response = await axiosInstance.put(`/task/update-task/${updatedData.id}`,
@@ -91,11 +91,12 @@ function InputModal({ showModal, setShowModal, updatedData, setUpdatedData }) {
                 description: '',
             })
             setShowModal('hidden')
+            toast.success('Task updated successfully')
             window.location.reload()
 
         } catch (error) {
             console.log('Error in updating task - ', error);
-            alert('Something went wrong while updating task')
+            toast.error('Something went wrong while updating task', error)
 
         }
 
