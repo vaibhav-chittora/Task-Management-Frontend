@@ -2,6 +2,51 @@
 
 A modern task management application built with React and Vite that helps users organize, track and manage their tasks efficiently.
 
+## Application Preview 📸
+
+You can check out all the screenshots in the [`results/`](./src/results/) folder.
+
+Alternatively, click below to expand and preview:
+
+<details>
+
+
+### All Tasks
+
+![All Tasks](./src/results/All%20Tasks.png)
+
+### Create Task
+
+![Create Task](./src/results/Create%20New%20task%20Modal%20-%20Mobile.png)
+
+### Edit Task
+
+![Edit Task](./src/results/Update%20Task%20Modal.png)
+
+### Success and error popups
+
+![Success and error popups](./src/results/Status%20Updation%20.png)
+![Success and error popups](./src/results/Task%20Deletion.png)
+![Success and error popups](./src/results/Error%20handling%20Login%20-%20Mobile.png)
+![Success and error popups](./src/results/Login%20Error%20handling.png)
+
+### Mobile View
+
+![Mobile View](./src/results/All%20Tasks%20-%20Mobile.png)
+![Mobile View](./src/results/Name%20and%20Logout%20btn%20-%20Mobile.png)
+![Mobile View](./src/results/Create%20New%20task%20Modal%20-%20Mobile.png)
+![Mobile View](./src/results/Signup%20Page%20Mobile.png)
+![Mobile View](./src/results/Login%20Page%20-%20Mobile.png)
+![Mobile View](./src/results/landing%20Page%20-%20Mobile.png)
+![Mobile View](./src/results/Pending%20Tasks%20-%20Mobile.png)
+![Mobile View](./src/results/Completed%20Tasks-%20Mobile.png)
+![Mobile View](./src/results/Important%20tasks%20-%20Mobile.png)
+![Mobile View](./src/results/Error%20handling%20Login%20-%20Mobile.png)
+
+</details>
+
+---
+
 ## Features
 
 - Task creation, updating and deletion
@@ -9,6 +54,8 @@ A modern task management application built with React and Vite that helps users 
 - Clean and intuitive user interface
 - Real-time updates with HMR (Hot Module Replacement)
 - Responsive design for all devices
+- 👤 **User profile picture** integration using **Robohash**
+- 🚀 Modern and efficient React-based architecture
 
 ## Tech Stack
 
