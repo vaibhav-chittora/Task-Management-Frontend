@@ -52,7 +52,7 @@ function Sidebar() {
     };
 
     const menuItems = [
-        { title: "All", icon: <CgNotes />, link: "/home/all-tasks" },
+        { title: "All ~ Self tasks", icon: <CgNotes />, link: "/home/all-tasks" },
         { title: "Important", icon: <MdLabelImportant />, link: "/home/important-tasks" },
         { title: "Completed", icon: <IoCheckmarkDoneOutline />, link: "/home/completed-tasks" },
         { title: "Pending", icon: <MdOutlinePendingActions />, link: "/home/pending-tasks" },

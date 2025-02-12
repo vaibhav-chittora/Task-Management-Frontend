@@ -1,8 +1,8 @@
 import axios from "axios";
-import { backendApiUrl } from "./apiUrl";
+import { BACKEND_API_URL } from "./apiUrl";
 
 const axiosInstance = axios.create({
-  baseURL: backendApiUrl,
+  baseURL: BACKEND_API_URL,
   headers: {},
 });
 
