@@ -9,7 +9,7 @@ You can check out all the screenshots in the [`results/`](./src/results/) folder
 Alternatively, click below to expand and preview:
 
 <details>
-
+<summary> Click to see the screenshots / Preview Images of the application in different views </summary>
 
 ### All Tasks
 
